@@ -2,16 +2,13 @@ import "../style/register.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 
 function RegisterPage() {
   const [inputs, setInputs] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -21,17 +18,18 @@ function RegisterPage() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("enter submit");
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:3000/product", {
-        name: inputs.name,
+      const { data } = await axios.post("http://localhost:3000/register", {
+        username: inputs.username,
         email: inputs.email,
         password: inputs.password,
       });
+      console.log(data);
       if (data.success) {
-        toast.success("User Register Successfully");
-        navigate("/login");
         console.log("sucssess");
+        window.location.href = "/login";
       }
     } catch (error) {
       console.log(error);
@@ -48,9 +46,9 @@ function RegisterPage() {
               <label htmlFor="name">Name</label>
               <input
                 type="text"
-                id="name"
-                name="name"
-                value={inputs.name}
+                id="username"
+                name="username"
+                value={inputs.username}
                 onChange={handleChange}
                 placeholder="Enter your name"
                 className="form-control form-input-style"

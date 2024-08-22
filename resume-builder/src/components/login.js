@@ -2,21 +2,43 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../style/login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const navigate = useNavigate();
+  // const [username, setUsername] = useState();
+  // const [email, setEmail] = useState();
+  // const [password, setPassword] = useState();
 
-  const handleSubmit = (e) => {
-    axios
-      .get("http://localhost:3000/product", { email, password })
-      .then((result) => {
-        console.log(result);
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!inputs.email || !inputs.password) {
+      console.log("Please enter Username, Email and Password!");
+      return;
+    }
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3000/login?email=${inputs.email}&password=${inputs.password}`
+      );
+      console.log(data);
+      if (data.success) {
+        console.log("enter login");
+        console.log(data.id);
+        window.location.href = `/resumelisting/${data.id}`;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -28,13 +50,15 @@ function Login() {
           </b>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="email">Email address</label>
+              <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
-                required
-                className="form-control form-input-style"
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                value={inputs.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                className="form-control"
               />
             </div>
             <div className="form-group">
@@ -42,9 +66,11 @@ function Login() {
               <input
                 type="password"
                 id="password"
-                required
+                name="password"
+                value={inputs.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
                 className="form-control"
-                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button

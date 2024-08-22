@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 function CreateResume() {
   const [inputs, setInputs] = useState({
     name: "",
-    // email: "",
+    email: "",
     number: "",
     DOB: "",
     gender: "",
@@ -69,34 +68,35 @@ function CreateResume() {
 
     const dataToSubmit = {
       ...inputs,
-      // Make sure to add default empty arrays for these fields if they are not set
       experiences: inputs.experiences || [],
       education: inputs.education || [],
       skills: inputs.skills || [],
     };
 
     console.log("Data to submit:", dataToSubmit);
+    // const { id } = req.params;
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/product", // Make sure this matches your server route
+        `http://localhost:3000/resumelisting/${id}/resume`, // Make sure this matches your server route
         dataToSubmit
       );
 
       if (data.success) {
-        toast.success("Resume submitted successfully");
       } else {
-        toast.error("Resume submission failed");
+        window.location.href = `/resumelisting/${id}`;
       }
     } catch (error) {
       if (error.response) {
-        console.error("Error response:", error.response);
-        console.error("Error data:", error.response.data);
+        // console.error("Error response:", error.response);
+        // console.error("Error data:", error.response.data);
       } else {
         console.error("Error:", error.message);
       }
     }
   };
+
+  const { id } = useParams();
 
   return (
     <div>
@@ -106,7 +106,7 @@ function CreateResume() {
             Resume Builder
           </a>
           <div>
-            <a href="http://localhost:3000/profile">
+            <a href={`http://localhost:3000/resumelisting/${id}/profile`}>
               <button className="btn btn-sm btn-dark">
                 <i className="bi bi-person-circle" /> My Profile
               </button>
@@ -124,7 +124,7 @@ function CreateResume() {
             <h5>Create Resume</h5>
             <div>
               <a
-                href="http://localhost:3000/resumelisting"
+                href={`http://localhost:3000/resumelisting/${id}`}
                 className="text-decoration-none"
               >
                 <i className="bi bi-arrow-left-circle" /> Back
@@ -285,25 +285,28 @@ function CreateResume() {
                 </div>
               </div>
               <div>
-                {inputs.experiences.map((experience, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      border: "1px solid white",
-                      padding: "10px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <h2>Experience : {experience.company}</h2>
-                    <ul>
-                      {Object.keys(experience).map((key) => (
-                        <li key={key}>
-                          <strong>{key}:</strong> {experience[key]}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+                {inputs.experiences.map((experience, index) => {
+                  if (!experience) return null;
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        border: "1px solid white",
+                        padding: "10px",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <h2>Experience : {experience.company}</h2>
+                      <ul>
+                        {Object.keys(experience).map((key) => (
+                          <li key={key}>
+                            <strong>{key}:</strong> {experience[key]}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
               </div>
               <div className="col-md-6">
                 <label className="form-label">Company Name</label>
@@ -337,6 +340,20 @@ function CreateResume() {
                   onChange={(e) => handleNestedChange(e, "experienceInputs")}
                   name="experience"
                 />
+              </div>
+
+              <div className="col-md-6">
+                <label className="form-label">Proficiency</label>
+                <select
+                  className="form-select"
+                  value={inputs.experienceInputs?.experienceType || ""}
+                  onChange={(e) => handleNestedChange(e, "experienceInputs")}
+                  name="experienceType"
+                >
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option>Expert</option>
+                </select>
               </div>
               <hr />
               <div className="d-flex justify-content-between">
@@ -384,6 +401,19 @@ function CreateResume() {
                   onChange={(e) => handleNestedChange(e, "educationInputs")}
                   name="institute"
                 />
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">Proficiency</label>
+                <select
+                  className="form-select"
+                  value={inputs.educationInputs?.educationType || ""}
+                  onChange={(e) => handleNestedChange(e, "educationInputs")}
+                  name="educationType"
+                >
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option>Expert</option>
+                </select>
               </div>
               <div className="col-md-6">
                 <label className="form-label">Qualification</label>

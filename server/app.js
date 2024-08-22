@@ -1,7 +1,8 @@
 const express = require("express");
 // const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const mongoPractice = require("./mongoose");
+const resumeApi = require("./routes/resumeApi");
+const userApi = require("./routes/userApi");
 const app = express();
 
 // Database connection
@@ -25,7 +26,9 @@ app.use((req, res, next) => {
   );
   next();
 });
+
 app.use(bodyParser.json());
+app.set("view engine", "ejs");
 
 // // const DB =
 // //   "mongodb+srv://vikram:vikram@123@cluster0.1ynh0iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -44,7 +47,28 @@ app.get("/", (req, res) => {
 //   res.json(data);
 // });
 
-app.post("/product", mongoPractice.createResume);
+// app.post("/login", userApi.userLogin);
+
+app.post("/register", userApi.userRegister);
+
+app.get("/login", userApi.getUser);
+
+app.get("/resumelisting/:id", (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  res.send(id);
+});
+
+app.post("/resumelisting/:id/resume", resumeApi.createResume);
+
+app.get("/resumelisting/:id/createresume", (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  res.render("createresume", { id });
+});
+
+app.get("/resumelisting/:id/profile", userApi.getUserById);
+
 // app.post("/product", (req, res) => {
 //   if (!req.body || !req.body.name || !req.body.email || !req.body.password) {
 //     res.status(400).send({ message: "Bad Request" });
@@ -56,7 +80,7 @@ app.post("/product", mongoPractice.createResume);
 //   });
 // });
 
-app.get("/product", mongoPractice.getUser);
+// app.get("/resume", mongoPractice.getUser);
 
 app.listen(8080, (req, res) => {
   console.log("server is running at 8080");

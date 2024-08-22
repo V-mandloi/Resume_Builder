@@ -1,8 +1,11 @@
 import React from "react";
 import "../style/resumelisting.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useParams } from "react-router-dom";
 
 function ResumeListing() {
+  const { id } = useParams();
+  console.log(id);
   return (
     <div>
       <nav className="navbar bg-body-tertiary shadow mb-3">
@@ -11,7 +14,7 @@ function ResumeListing() {
             Resume Builder
           </a>
           <div>
-            <a href="http://localhost:3000/profile">
+            <a href={`http://localhost:3000/resumelisting/${id}/profile`}>
               <button className="btn btn-sm btn-dark">
                 <i className="bi bi-person-circle" /> Profile
               </button>
@@ -29,7 +32,7 @@ function ResumeListing() {
             <h5>Resumes</h5>
             <div>
               <a
-                href="http://localhost:3000/createresume"
+                href={`http://localhost:3000/resumelisting/${id}/createresume`}
                 className="text-decoration-none"
               >
                 <i className="bi bi-file-earmark-plus" /> Add New

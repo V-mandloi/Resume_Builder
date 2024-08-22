@@ -1,0 +1,74 @@
+.page {
+  width: 21cm;
+  min-height: 29.7cm;
+  padding: 0.5cm;
+  margin: 0.5cm auto;
+  border: 1px #d3d3d3 solid;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.subpage {
+  /* height: 256mm; */
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+/* @media print {
+  .page {
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
+  }
+} */
+
+* {
+  transition: all 0.2s;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.pr {
+  padding-right: 30px;
+}
+
+.pd-table td {
+  padding-right: 10px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* background-color: #fafafa; */
+  font-family: "Poppins", sans-serif;
+  font-size: 12pt;
+
+  background: #0f2027;
+  background: -webkit-linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  /* color: white !important; */
+  /* background-image: url(./tiles/tile23.jpg); */
+  background-attachment: fixed;
+}
+
+* {
+  margin: 0px;
+}
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}

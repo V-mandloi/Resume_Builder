@@ -7,6 +7,7 @@ import Forgot from "./components/forgotPassword";
 import Resumelisting from "./components/resumelisting";
 import Createresume from "./components/createresume";
 import Profile from "./components/profile";
+import ResumeTemplate from "./components/resumeTemplate";
 import axios from "axios";
 
 function App() {
@@ -29,9 +30,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgetPassword" element={<Forgot />} />
-        <Route path="/resumelisting" element={<Resumelisting />} />
-        <Route path="/createresume" element={<Createresume />} />
-        <Route path="/profile" element={<Profile data={data} />} />
+        <Route path="/resumelisting/:id" element={<Resumelisting />} />
+        <Route
+          path="/resumelisting/:id/createresume"
+          element={<Createresume />}
+        />
+        <Route
+          path="/resumelisting/:id/profile"
+          element={<Profile data={data} />}
+        />
+        <Route path="/ResumeTemplate" element={<ResumeTemplate />} />
         {/* <div>{data ? <p>{data.message}</p> : <p>Loading...</p>}</div> */}
       </Routes>
     </BrowserRouter>
