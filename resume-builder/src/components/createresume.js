@@ -15,6 +15,7 @@ function CreateResume() {
     hobbies: "",
     language: "",
     address: "",
+    objective: "",
     experiences: [],
     education: [],
     skills: [],
@@ -83,8 +84,9 @@ function CreateResume() {
       );
 
       if (data.success) {
-      } else {
         window.location.href = `/resumelisting/${id}`;
+      } else {
+        console.log("data was not success");
       }
     } catch (error) {
       if (error.response) {
@@ -269,6 +271,21 @@ function CreateResume() {
                   name="address"
                 />
               </div>
+              <div className="col-12">
+                <label htmlFor="inputAddress" className="form-label">
+                  Objective
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="objective"
+                  placeholder="1234 Main St"
+                  value={inputs.objective}
+                  onChange={handleChange}
+                  name="objective"
+                />
+              </div>
+
               <hr />
               <div className="d-flex justify-content-between">
                 <h5 className=" ">
@@ -331,6 +348,28 @@ function CreateResume() {
                 />
               </div>
               <div className="col-md-6">
+                <label className="form-label">From</label>
+                <input
+                  type="date"
+                  placeholder="5 years"
+                  className="form-control"
+                  value={inputs.experienceInputs?.from || ""}
+                  onChange={(e) => handleNestedChange(e, "experienceInputs")}
+                  name="from"
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">To</label>
+                <input
+                  type="date"
+                  placeholder="5 years"
+                  className="form-control"
+                  value={inputs.experienceInputs?.to || ""}
+                  onChange={(e) => handleNestedChange(e, "experienceInputs")}
+                  name="to"
+                />
+              </div>
+              <div className="col-md-6">
                 <label className="form-label">Experience</label>
                 <input
                   type="text"
@@ -355,6 +394,7 @@ function CreateResume() {
                   <option>Expert</option>
                 </select>
               </div>
+
               <hr />
               <div className="d-flex justify-content-between">
                 <h5 className=" ">
@@ -410,13 +450,16 @@ function CreateResume() {
                   onChange={(e) => handleNestedChange(e, "educationInputs")}
                   name="educationType"
                 >
-                  <option>Beginner</option>
-                  <option>Intermediate</option>
-                  <option>Expert</option>
+                  <option>Select</option>
+                  <option>10th</option>
+                  <option>12th</option>
+                  <option>Diploma</option>
+                  <option>Graduation</option>
+                  <option>Post Graduation</option>
                 </select>
               </div>
               <div className="col-md-6">
-                <label className="form-label">Qualification</label>
+                <label className="form-label">Qualification In</label>
                 <input
                   type="text"
                   placeholder="B.Tech"

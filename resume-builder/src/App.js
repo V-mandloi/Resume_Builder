@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/register";
@@ -39,7 +38,10 @@ function App() {
           path="/resumelisting/:id/profile"
           element={<Profile data={data} />}
         />
-        <Route path="/ResumeTemplate" element={<ResumeTemplate />} />
+        <Route
+          path="/resumelisting/:id/resumeTemplate/:resumeId"
+          element={<ResumeTemplate />}
+        />
         {/* <div>{data ? <p>{data.message}</p> : <p>Loading...</p>}</div> */}
       </Routes>
     </BrowserRouter>

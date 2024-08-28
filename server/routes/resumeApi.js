@@ -30,6 +30,7 @@ const createResume = async (req, res, next) => {
       hobbies,
       language,
       address,
+      objective,
       experiences,
       education,
       skills,
@@ -47,6 +48,7 @@ const createResume = async (req, res, next) => {
       !hobbies ||
       !language ||
       !address ||
+      !objective ||
       !experiences ||
       !education ||
       !skills
@@ -74,15 +76,16 @@ const createResume = async (req, res, next) => {
       number,
       DOB,
       gender,
-      religion, // This is optional, no need to check for its presence
+      religion,
       nationality,
       maritalStatus,
       hobbies,
       language,
       address,
-      experiences, // Array of objects
-      education, // Array of objects
-      skills, // Array of objects
+      objective,
+      experiences,
+      education,
+      skills,
     });
     console.log("enter2");
     // Save the resume to the database
@@ -112,6 +115,48 @@ const createResume = async (req, res, next) => {
   }
 };
 
+const getResume = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await User.findById(id);
+    if (result) {
+      res.json(result);
+      // console.log(result);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const findResumeWithId = async (req, res) => {
+  console.log("enter findResumeWithId");
+  const resumeId = req.params.resumeId;
+  console.log(resumeId);
+  try {
+    const resume = await Resume.findById(resumeId);
+    console.log(resume);
+
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found" });
+    }
+    res.json(resume);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const deleteResume = async (req, res) => {
+  const id = req.params.id;
+  const resumeId = req.params.resumeId;
+  await Resume.deleteOne({ _id: resumeId });
+  res.json({ message: "Resume deleted successfully" });
+};
+
 exports.createResume = createResume;
-// exports.getUser = getUser;
-// exports.getName = getName;
+exports.getResume = getResume;
+exports.findResumeWithId = findResumeWithId;
+exports.deleteResume = deleteResume;
